@@ -16,6 +16,19 @@
   <body class="g-sidenav-show bg-gray-100">
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
       <div class="container-fluid py-4">
+        <div class="progress-wrapper">
+          <div class="progress-info">
+            <div class="progress-percentage">
+              Good to Go! <span class="text-sm font-weight-bold">60%</span>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid py-4">
         <div class="row my-4">
           <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
             <div class="card">
@@ -88,10 +101,9 @@
             </div>
           </div>
         </div>
+        <div class="btn btn-success getValuesBtn">Submit</div>
       </div>
-      <div class="btn btn-success getValuesBtn">Submit</div>
     </main>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename = 'js/core/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename = 'js/core/bootstrap.min.js') }}"></script>
@@ -100,8 +112,20 @@
     <script src="{{ url_for('static', filename = 'js/plugins/chartjs.min.js') }}"></script>
     <script src="{{ url_for('static', filename = 'js/soft-ui-dashboard.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
-      $(document).ready(function () {})
+      $(document).ready(function () {
+        function updateProgressBar(value) {
+          $('.progress-bar')
+            .attr('aria-valuenow', value)
+            .css('width', value + '%')
+          $('.progress-percentage')
+            .find('.font-weight-bold')
+            .text(value + '%')
+        }
+        var newValue = 10
+        updateProgressBar(newValue)
+      })
     </script>
     <script>
       $(document).ready(function () {
@@ -116,81 +140,81 @@
         })
         $('#addRowBtn').click(function () {
           var newRowHtml = `                      <tr>
-                              <td>
-                                <input type="text" class="form-control eventName" placeholder="Enter Event Name..." />
-                              </td>
-                              <td>
-                                <input type="text" class="form-control eventDate" placeholder="Enter Date here..." />
-                              </td>
-                              <td>
-                                <select class="form-select participated">
-                                  <option value="inside">Inside</option>
-                                  <option value="outside">Outside</option>
-                                  <option value="state">State</option>
-                                  <option value="national/international">National/International</option>
-                                </select>
-                              </td>
-                              <td>
-                                <select class="form-select prize">
-                                  <option value="nill">Nil</option>
-                                  <option value="inside">Inside</option>
-                                  <option value="outside">Outside</option>
-                                  <option value="state">State</option>
-                                  <option value="national/international">National/International</option>
-                                </select>
-                              </td>
-                              <td>
-                                <input type="text" class="form-control proof" placeholder="Enter Proof here ..." />
-                              </td>
-                              <td>
-                                <input type="text" class="form-control pageNumber" placeholder="Enter Proof Page Number..." />
-                              </td>
-                              <td>
-                                <a type="button" class="btn btn-sm btn-danger removeInputBtn">Remove</a>
-                              </td>
-                            </tr>`
+                                                                        <td>
+                                                                          <input type="text" class="form-control eventName" placeholder="Enter Event Name..." />
+                                                                        </td>
+                                                                        <td>
+                                                                          <input type="text" class="form-control eventDate" placeholder="Enter Date here..." />
+                                                                        </td>
+                                                                        <td>
+                                                                          <select class="form-select participated">
+                                                                            <option value="inside">Inside</option>
+                                                                            <option value="outside">Outside</option>
+                                                                            <option value="state">State</option>
+                                                                            <option value="national/international">National/International</option>
+                                                                          </select>
+                                                                        </td>
+                                                                        <td>
+                                                                          <select class="form-select prize">
+                                                                            <option value="nill">Nil</option>
+                                                                            <option value="inside">Inside</option>
+                                                                            <option value="outside">Outside</option>
+                                                                            <option value="state">State</option>
+                                                                            <option value="national/international">National/International</option>
+                                                                          </select>
+                                                                        </td>
+                                                                        <td>
+                                                                          <input type="text" class="form-control proof" placeholder="Enter Proof here ..." />
+                                                                        </td>
+                                                                        <td>
+                                                                          <input type="text" class="form-control pageNumber" placeholder="Enter Proof Page Number..." />
+                                                                        </td>
+                                                                        <td>
+                                                                          <a type="button" class="btn btn-sm btn-danger removeInputBtn">Remove</a>
+                                                                        </td>
+                                                                      </tr>`
           $('table.table tbody').append(newRowHtml)
         })
         /*
-                                                                                                                  $('.getValuesBtn').click(function () {
-                                                                                                                    var inputData = []
-                                                                                                                    $('table.table tbody tr').each(function () {
-                                                                                                                      var rowValues = {}
-                                                                                                                      $(this)
-                                                                                                                        .find('input')
-                                                                                                                        .each(function () {
-                                                                                                                          rowValues[$(this).attr('class').split(' ')[1]] = $(this).val()
-                                                                                                                        })
-                                                                                                                      inputData.push(rowValues)
-                                                                                                                    })
-                                                                                                                    // var jsonData = JSON.stringify(inputData)
-                                                                                                                    // console.log(jsonData)
-                                                                                                                    //   $.ajax({
-                                                                                                                    //     type: 'POST',
-                                                                                                                    //     url: '/submit_data',
-                                                                                                                    //     data: jsonData,
-                                                                                                                    //     contentType: 'application/json',
-                                                                                                                    //     success: function (response) {
-                                                                                                                    //       console.log(`success :`,response)
-                                                                                                                    //     },
-                                                                                                                    //     error: function (error) {
-                                                                                                                    //       console.error(error)
-                                                                                                                    //     }
-                                                                                                                
-                                                                                                                    // for (var i = 0; i < inputData.length; i++) {
-                                                                                                                    //   var event = inputData[i]
-                                                                                                                    //   console.log('Event Name: ' + event.eventName)
-                                                                                                                    //   console.log('Event Date: ' + event.eventDate)
-                                                                                                                    //   console.log('Participated: ' + event.participated)
-                                                                                                                    //   console.log('Prize: ' + event.prize)
-                                                                                                                    //   console.log('Proof: ' + event.proof)
-                                                                                                                    //   console.log('Page Number: ' + event.pageNumber)
-                                                                                                                    //   console.log('------------------------\n')
-                                                                                                                    // }
-                                                                                                          
-                                                                                                                    
-                                                                                                                  // })
-                                                                                                                  */
+                                                                                                                                                            $('.getValuesBtn').click(function () {
+                                                                                                                                                              var inputData = []
+                                                                                                                                                              $('table.table tbody tr').each(function () {
+                                                                                                                                                                var rowValues = {}
+                                                                                                                                                                $(this)
+                                                                                                                                                                  .find('input')
+                                                                                                                                                                  .each(function () {
+                                                                                                                                                                    rowValues[$(this).attr('class').split(' ')[1]] = $(this).val()
+                                                                                                                                                                  })
+                                                                                                                                                                inputData.push(rowValues)
+                                                                                                                                                              })
+                                                                                                                                                              // var jsonData = JSON.stringify(inputData)
+                                                                                                                                                              // console.log(jsonData)
+                                                                                                                                                              //   $.ajax({
+                                                                                                                                                              //     type: 'POST',
+                                                                                                                                                              //     url: '/submit_data',
+                                                                                                                                                              //     data: jsonData,
+                                                                                                                                                              //     contentType: 'application/json',
+                                                                                                                                                              //     success: function (response) {
+                                                                                                                                                              //       console.log(`success :`,response)
+                                                                                                                                                              //     },
+                                                                                                                                                              //     error: function (error) {
+                                                                                                                                                              //       console.error(error)
+                                                                                                                                                              //     }
+                                                                                                                                                          
+                                                                                                                                                              // for (var i = 0; i < inputData.length; i++) {
+                                                                                                                                                              //   var event = inputData[i]
+                                                                                                                                                              //   console.log('Event Name: ' + event.eventName)
+                                                                                                                                                              //   console.log('Event Date: ' + event.eventDate)
+                                                                                                                                                              //   console.log('Participated: ' + event.participated)
+                                                                                                                                                              //   console.log('Prize: ' + event.prize)
+                                                                                                                                                              //   console.log('Proof: ' + event.proof)
+                                                                                                                                                              //   console.log('Page Number: ' + event.pageNumber)
+                                                                                                                                                              //   console.log('------------------------\n')
+                                                                                                                                                              // }
+                                                                                                                                                    
+                                                                                                                                                              
+                                                                                                                                                            // })
+                                                                                                                                                            */
         $('.getValuesBtn').click(function () {
           var inputData = []
           $('table.table tbody tr').each(function () {
@@ -234,7 +258,7 @@
               // console.log('data: ', data['template'])
               $(document.body).append(data['template'])
               // Add data-backdrop="static" to the modal
-
+      
               $('#submit-model').attr('data-backdrop', 'static')
       
               // Show the modal
